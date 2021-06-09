@@ -1,21 +1,10 @@
 import React from 'react';
+import {Text, View} from 'react-native';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import Login from './Screens/Authentication/Login';
 
 const App: React.FC = () => {
-  return (
-    <View>
-      <Text>saaass222sa</Text>
-    </View>
-  );
+  return <Login />;
 };
 
 export default App;
