@@ -4,15 +4,17 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Button} from '../../Components/Button';
 import {Input} from '../../Components/Input';
 
-interface LoginProps {}
+interface SignUpProps {}
 
-const Login: React.FC<LoginProps> = () => {
+const SignUp: React.FC<SignUpProps> = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>Login</Text>
+      <Text style={styles.logo}>Sign Up</Text>
+      <Input placeHolder="Name..." value={name} onChange={setName} />
       <Input placeHolder="Email..." value={email} onChange={setEmail} />
       <Input
         placeHolder="Password..."
@@ -39,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SignUp;
