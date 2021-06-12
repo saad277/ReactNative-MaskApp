@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 
+import {Colors} from '../../Styles';
+
 interface props {
   onChange: Function;
   value: string;
@@ -26,8 +28,7 @@ const Input: React.FC<props> = props => {
 const styles = StyleSheet.create({
   inputView: {
     width: '80%',
-
-    backgroundColor: '#465881',
+    backgroundColor: Colors.secondary,
     borderRadius: 25,
     height: 50,
     marginBottom: 20,
@@ -36,8 +37,8 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: 50,
-    fontSize:20,
-    color: 'white',
+    fontSize: 20,
+    color: Colors.white,
   },
 });
 

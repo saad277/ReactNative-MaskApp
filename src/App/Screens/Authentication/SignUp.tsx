@@ -1,5 +1,9 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+import {Colors} from '../../Styles';
+import {APP_ROUTES} from '../../Helpers/RouteHelpers';
 
 import {Button} from '../../Components/Button';
 import {Input} from '../../Components/Input';
@@ -10,6 +14,7 @@ const SignUp: React.FC<SignUpProps> = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -22,6 +27,9 @@ const SignUp: React.FC<SignUpProps> = () => {
         onChange={setPassword}
       />
       <Button title="Submit" onPress={() => {}} />
+      <TouchableOpacity onPress={() => navigation.navigate(APP_ROUTES.LOGIN)}>
+        <Text style={styles.text}>Already Have An Account ? LogIn</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -38,6 +46,10 @@ const styles = StyleSheet.create({
     fontSize: 50,
     color: '#fb5b5a',
     marginBottom: 40,
+  },
+  text: {
+    color: Colors.white,
+    marginTop: 20,
   },
 });
 

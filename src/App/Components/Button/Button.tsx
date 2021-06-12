@@ -1,11 +1,12 @@
 import React from 'react';
 import {
-  View,
   Text,
   StyleSheet,
   TouchableOpacity,
   GestureResponderEvent,
 } from 'react-native';
+
+import {Colors} from '../../Styles';
 
 interface props {
   title: string;
@@ -25,18 +26,15 @@ const Button: React.FC<props> = props => {
 const styles = StyleSheet.create({
   loginBtn: {
     width: '80%',
-    backgroundColor: '#fb5b5a',
+    backgroundColor: Colors.primary,
     borderRadius: 25,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-   
-   
   },
   loginText: {
-    color: 'white',
-    fontSize:20,
-   
+    color: Colors.white,
+    fontSize: 20,
   },
 });
 
