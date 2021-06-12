@@ -18,13 +18,13 @@ const AuthStack = () => {
   return (
     <Stack.Navigator initialRouteName={APP_ROUTES.SIGN_UP}>
       {routes.map((route, index) => {
-        const {name, screen, options} = route;
+        const {name, screen} = route;
         return (
           <Stack.Screen
             key={index}
             name={name}
             component={screen}
-            options={{...defaultOptions, ...options}}
+            options={{...defaultOptions}}
           />
         );
       })}

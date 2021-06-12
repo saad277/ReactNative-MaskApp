@@ -4,13 +4,13 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import {Colors} from './Styles';
 
-import AuthStack from './Navigation/AuthStack';
+import {AuthStack, MainApp} from './Navigation';
 
 const App: React.FC = () => {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={Colors.primary} />
-      <AuthStack />
+      <MainApp />
     </NavigationContainer>
   );
 };
