@@ -26,4 +26,7 @@ export const CommonStyles = StyleSheet.create({
   flexEnd: {
     justifyContent: 'flex-end',
   },
+  alignSelfCenter: {
+    alignSelf: 'center',
+  },
 });
