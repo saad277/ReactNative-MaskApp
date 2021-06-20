@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import ImagePicker from 'react-native-image-crop-picker';
 import CameraRoll from '@react-native-community/cameraroll';
 
 import {CommonStyles, Colors} from '../../Styles';
@@ -34,13 +35,21 @@ const Camera: React.FC = (props) => {
         .then((res) => {
           setPreview(res.edges[0].node.image.uri);
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     };
 
     initialize();
   }, []);
+
+  const openPicker = () => {
+    ImagePicker.openPicker({
+      cropping: true,
+    })
+      .then((image) => {
+        setTakenImage({path: image.path});
+      })
+      .catch((err) => {});
+  };
 
   const askPermission = async () => {
     if (Platform.OS === 'android') {
@@ -79,20 +88,27 @@ const Camera: React.FC = (props) => {
           />
         )}
       </View>
-      <View style={styles.footer}>
-        <TouchableOpacity>
-          <Image style={styles.preview} source={{uri: preview}} />
-        </TouchableOpacity>
+      <View
+        style={[styles.footer, takenImage.path && {justifyContent: 'center'}]}>
+        {!takenImage.path && (
+          <TouchableOpacity onPress={openPicker}>
+            <Image style={styles.preview} source={{uri: preview}} />
+          </TouchableOpacity>
+        )}
+
         {takenImage?.path ? (
           <TouchableOpacity onPress={() => setTakenImage({path: ''})}>
             <Image source={CameraRetake} style={styles.retake} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity onPress={takePicture}>
-            <Image source={CameraIcon} style={styles.camera} />
+            <Image source={CameraIcon} style={[styles.camera]} />
           </TouchableOpacity>
         )}
-        <TouchableOpacity style={{width: 40, height: 40}}></TouchableOpacity>
+
+        {!takenImage.path && (
+          <TouchableOpacity style={{width: 40, height: 40}}></TouchableOpacity>
+        )}
       </View>
     </View>
   );
