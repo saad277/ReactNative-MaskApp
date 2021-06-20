@@ -21,6 +21,7 @@
     "buildAndStart": "yarn run build && yarn run watchAndStart"
   },
   "dependencies": {
+    "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^5.11.11",
