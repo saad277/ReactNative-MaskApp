@@ -16,6 +16,7 @@ import {FlashMode, CameraType} from '../../Constants';
 
 import CameraIcon from '../../Assets/camera-white.png';
 import CameraRetake from '../../Assets/camera-retake.png';
+import UploadIcon from '../../Assets/upload.png';
 
 const Camera: React.FC = (props) => {
   const cameraRef = useRef<any>(null);
@@ -24,6 +25,7 @@ const Camera: React.FC = (props) => {
   const [flashEnabled, setFlashEnabled] = useState(FlashMode.OFF);
   const [takenImage, setTakenImage] = useState({path: ''});
   const [preview, setPreview] = useState<string>('');
+  const [base64, setBase64] = useState<string>('');
 
   useEffect(() => {
     const initialize = async () => {
@@ -68,6 +70,7 @@ const Camera: React.FC = (props) => {
       const options = {quality: 0.5, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
 
+      setBase64(data.base64);
       setTakenImage({path: data.uri});
     }
   };
@@ -78,7 +81,7 @@ const Camera: React.FC = (props) => {
         <View style={styles.header}></View>
 
         {takenImage?.path ? (
-          <Image source={{uri: takenImage.path}} style={CommonStyles.flexOne} />
+          <Image source={{uri: takenImage.path}} style={CommonStyles.flexOne} resizeMode="contain" />
         ) : (
           <RNCamera
             ref={cameraRef}
@@ -89,10 +92,19 @@ const Camera: React.FC = (props) => {
         )}
       </View>
       <View
-        style={[styles.footer, takenImage.path && {justifyContent: 'center'}]}>
+        style={[
+          styles.footer,
+          takenImage.path && {justifyContent: 'space-between'},
+        ]}>
         {!takenImage.path && (
           <TouchableOpacity onPress={openPicker}>
             <Image style={styles.preview} source={{uri: preview}} />
+          </TouchableOpacity>
+        )}
+
+        {Boolean(takenImage?.path) && (
+          <TouchableOpacity>
+            <Image source={UploadIcon} style={styles.upload} />
           </TouchableOpacity>
         )}
 
@@ -106,9 +118,8 @@ const Camera: React.FC = (props) => {
           </TouchableOpacity>
         )}
 
-        {!takenImage.path && (
-          <TouchableOpacity style={{width: 40, height: 40}}></TouchableOpacity>
-        )}
+        {/* For Alignment */}
+        <TouchableOpacity style={{width: 40, height: 40}}></TouchableOpacity>
       </View>
     </View>
   );
@@ -136,6 +147,11 @@ const styles = StyleSheet.create({
     width: 55,
     height: 55,
     alignSelf: 'center',
+  },
+  upload: {
+    width: 55,
+    height: 55,
+    alignSelf: 'flex-start',
   },
   retake: {
     width: 55,
