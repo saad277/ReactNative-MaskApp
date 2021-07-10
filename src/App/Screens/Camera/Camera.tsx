@@ -10,20 +10,24 @@ import {
 import {RNCamera} from 'react-native-camera';
 import ImagePicker from 'react-native-image-crop-picker';
 import CameraRoll from '@react-native-community/cameraroll';
+import {connect} from 'react-redux';
 
 import {CommonStyles, Colors} from '../../Styles';
 import {FlashMode, CameraType} from '../../Constants';
+
+import {upload} from '../../Store/actions';
 
 import CameraIcon from '../../Assets/camera-white.png';
 import CameraRetake from '../../Assets/camera-retake.png';
 import UploadIcon from '../../Assets/upload.png';
 
 const Camera: React.FC = (props) => {
-  const cameraRef = useRef<any>(null);
+  const {upload} = props;
 
+  const cameraRef = useRef<any>(null);
   const [camera, setCamera] = useState(CameraType.BACK);
   const [flashEnabled, setFlashEnabled] = useState(FlashMode.OFF);
-  const [takenImage, setTakenImage] = useState({path: ''});
+  const [takenImage, setTakenImage] = useState({path: '', base64: ''});
   const [preview, setPreview] = useState<string>('');
   const [base64, setBase64] = useState<string>('');
 
@@ -46,9 +50,10 @@ const Camera: React.FC = (props) => {
   const openPicker = () => {
     ImagePicker.openPicker({
       cropping: true,
+      includeBase64: true,
     })
       .then((image) => {
-        setTakenImage({path: image.path});
+        setTakenImage({path: image.path, base64: image.data});
       })
       .catch((err) => {});
   };
@@ -70,9 +75,20 @@ const Camera: React.FC = (props) => {
       const options = {quality: 0.5, base64: true};
       const data = await cameraRef.current.takePictureAsync(options);
 
-      setBase64(data.base64);
-      setTakenImage({path: data.uri});
+      setTakenImage({path: data.uri, base64: data.base64});
     }
+  };
+
+  const handleUpload = () => {
+    const data = new FormData();
+    let source = {
+      uri: takenImage.path,
+      name :'media',
+      type: 'image/png',
+    };
+    data.append('img', source);
+
+    upload(data);
   };
 
   return (
@@ -81,7 +97,11 @@ const Camera: React.FC = (props) => {
         <View style={styles.header}></View>
 
         {takenImage?.path ? (
-          <Image source={{uri: takenImage.path}} style={CommonStyles.flexOne} resizeMode="contain" />
+          <Image
+            source={{uri: takenImage.path}}
+            style={CommonStyles.flexOne}
+            resizeMode="contain"
+          />
         ) : (
           <RNCamera
             ref={cameraRef}
@@ -91,11 +111,7 @@ const Camera: React.FC = (props) => {
           />
         )}
       </View>
-      <View
-        style={[
-          styles.footer,
-          takenImage.path && {justifyContent: 'space-between'},
-        ]}>
+      <View style={[styles.footer]}>
         {!takenImage.path && (
           <TouchableOpacity onPress={openPicker}>
             <Image style={styles.preview} source={{uri: preview}} />
@@ -103,7 +119,7 @@ const Camera: React.FC = (props) => {
         )}
 
         {Boolean(takenImage?.path) && (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleUpload}>
             <Image source={UploadIcon} style={styles.upload} />
           </TouchableOpacity>
         )}
@@ -160,4 +176,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Camera;
+const mapDispatchToProps = {
+  upload,
+};
+
+export default connect(null, mapDispatchToProps)(Camera);
