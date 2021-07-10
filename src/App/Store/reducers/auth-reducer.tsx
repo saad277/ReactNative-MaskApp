@@ -4,14 +4,14 @@ interface AuthState {
   user: '' | string;
 }
 
-const initialState = {
-  user: '',
-};
-
 interface ActionType {
   type: string;
   payload: object;
 }
+
+const initialState = {
+  user: '',
+};
 
 export default (state = initialState, action: ActionType): AuthState => {
   switch (action.type) {
