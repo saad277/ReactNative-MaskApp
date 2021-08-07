@@ -21,7 +21,11 @@ import CameraIcon from '../../Assets/camera-white.png';
 import CameraRetake from '../../Assets/camera-retake.png';
 import UploadIcon from '../../Assets/upload.png';
 
-const Camera: React.FC = (props) => {
+interface CameraProps {
+  upload: Function;
+}
+
+const Camera: React.FC<CameraProps> = (props) => {
   const {upload} = props;
 
   const cameraRef = useRef<any>(null);
@@ -29,7 +33,6 @@ const Camera: React.FC = (props) => {
   const [flashEnabled, setFlashEnabled] = useState(FlashMode.OFF);
   const [takenImage, setTakenImage] = useState({path: '', base64: ''});
   const [preview, setPreview] = useState<string>('');
-  const [base64, setBase64] = useState<string>('');
 
   useEffect(() => {
     const initialize = async () => {
@@ -52,7 +55,7 @@ const Camera: React.FC = (props) => {
       cropping: true,
       includeBase64: true,
     })
-      .then((image) => {
+      .then((image: any) => {
         setTakenImage({path: image.path, base64: image.data});
       })
       .catch((err) => {});
@@ -73,7 +76,13 @@ const Camera: React.FC = (props) => {
   const takePicture = async () => {
     if (cameraRef) {
       const options = {quality: 0.5, base64: true};
-      const data = await cameraRef.current.takePictureAsync(options);
+      let data;
+
+      try {
+        data = await cameraRef.current.takePictureAsync(options);
+      } catch (err) {
+        return;
+      }
 
       setTakenImage({path: data.uri, base64: data.base64});
     }
@@ -83,10 +92,10 @@ const Camera: React.FC = (props) => {
     const data = new FormData();
     let source = {
       uri: takenImage.path,
-      name :'media',
+      name: 'media',
       type: 'image/png',
     };
-    data.append('img', source);
+    data.append('img', source as any);
 
     upload(data);
   };
@@ -125,7 +134,8 @@ const Camera: React.FC = (props) => {
         )}
 
         {takenImage?.path ? (
-          <TouchableOpacity onPress={() => setTakenImage({path: ''})}>
+          <TouchableOpacity
+            onPress={() => setTakenImage({path: '', base64: ''})}>
             <Image source={CameraRetake} style={styles.retake} />
           </TouchableOpacity>
         ) : (
