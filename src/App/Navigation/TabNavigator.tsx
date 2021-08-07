@@ -3,8 +3,8 @@ import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {APP_ROUTES} from '../Helpers/RouteHelpers';
-import Camera from '../Screens/Camera/Camera';
 import Home from '../Screens/Home/Home';
+import UploadStack from '../Navigation/UploadStack';
 
 import CameraIcon from '../Assets/camera.png';
 import GalleryIcon from '../Assets/gallery.png';
@@ -32,8 +32,8 @@ const Tabs = () => {
         }}
       />
       <BottomTabs.Screen
-        name={APP_ROUTES.CAMERA}
-        component={Camera}
+        name={"UploadStack"}
+        component={UploadStack}
         options={() => {
           return {
             tabBarIcon: () => renderIcon(CameraIcon),

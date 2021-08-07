@@ -11,15 +11,18 @@ import {RNCamera} from 'react-native-camera';
 import ImagePicker from 'react-native-image-crop-picker';
 import CameraRoll from '@react-native-community/cameraroll';
 import {connect} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 import {CommonStyles, Colors} from '../../Styles';
 import {FlashMode, CameraType} from '../../Constants';
 
+import {APP_ROUTES} from '../../Helpers/RouteHelpers';
 import {upload} from '../../Store/actions';
 
 import CameraIcon from '../../Assets/camera-white.png';
 import CameraRetake from '../../Assets/camera-retake.png';
 import UploadIcon from '../../Assets/upload.png';
+import SwitchCamera from '../../Assets/switch-camera.png';
 
 interface CameraProps {
   upload: Function;
@@ -33,6 +36,7 @@ const Camera: React.FC<CameraProps> = (props) => {
   const [flashEnabled, setFlashEnabled] = useState(FlashMode.OFF);
   const [takenImage, setTakenImage] = useState({path: '', base64: ''});
   const [preview, setPreview] = useState<string>('');
+  const navigation = useNavigation();
 
   useEffect(() => {
     const initialize = async () => {
@@ -75,7 +79,7 @@ const Camera: React.FC<CameraProps> = (props) => {
 
   const takePicture = async () => {
     if (cameraRef) {
-      const options = {quality: 0.5, base64: true};
+      const options = {base64: true, mirrorImage: true};
       let data;
 
       try {
@@ -100,16 +104,32 @@ const Camera: React.FC<CameraProps> = (props) => {
     upload(data);
   };
 
+  const toggleCamera = () => {
+    if (camera === CameraType.BACK) {
+      setCamera(CameraType.FRONT);
+    } else {
+      setCamera(CameraType.BACK);
+    }
+  };
+
+  const imageHeight = takenImage && takenImage.path && {height: 50};
+
   return (
     <View style={[CommonStyles.flexOne]}>
       <View style={CommonStyles.flexOne}>
-        <View style={styles.header}></View>
+        <View style={[styles.header, imageHeight as any]}>
+          {!takenImage.path && (
+            <TouchableOpacity onPress={toggleCamera}>
+              <Image style={[styles.switchCamera]} source={SwitchCamera} />
+            </TouchableOpacity>
+          )}
+        </View>
 
         {takenImage?.path ? (
           <Image
             source={{uri: takenImage.path}}
             style={CommonStyles.flexOne}
-            resizeMode="contain"
+            resizeMode="cover"
           />
         ) : (
           <RNCamera
@@ -153,8 +173,16 @@ const Camera: React.FC<CameraProps> = (props) => {
 
 const styles = StyleSheet.create({
   header: {
-    flex: 0.15,
+    height: 150,
+    flexDirection: 'row',
     backgroundColor: Colors.black,
+  },
+  switchCamera: {
+    marginTop: 10,
+    width: 40,
+    height: 40,
+    marginLeft: 2,
+    tintColor: 'white',
   },
   footer: {
     flex: 0.18,
