@@ -32,7 +32,7 @@ const Tabs = () => {
         }}
       />
       <BottomTabs.Screen
-        name={"UploadStack"}
+        name={'Upload'}
         component={UploadStack}
         options={() => {
           return {

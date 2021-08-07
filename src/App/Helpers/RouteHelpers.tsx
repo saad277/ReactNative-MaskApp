@@ -3,5 +3,5 @@ export const APP_ROUTES = {
   SIGN_UP: 'SignUp',
   HOME: 'Home',
   CAMERA: 'Camera',
-  CLASSIFIED_DETAILS: 'ClassifiedDetails',
+  CLASSIFIED_DETAILS: 'Details',
 };

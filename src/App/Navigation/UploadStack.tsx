@@ -9,23 +9,31 @@ import ClassifiedDetails from '../Screens/ClassifiedDetails/ClassifiedDetails';
 const Stack = createStackNavigator();
 
 const routes = [
-  {name: APP_ROUTES.CAMERA, screen: Camera},
-  {name: APP_ROUTES.CLASSIFIED_DETAILS, screen: ClassifiedDetails},
+  {
+    name: APP_ROUTES.CAMERA,
+    screen: Camera,
+    options: {},
+  },
+  {
+    name: APP_ROUTES.CLASSIFIED_DETAILS,
+    screen: ClassifiedDetails,
+    options: {headerShown: true},
+  },
 ];
 
 const defaultOptions = {headerShown: false};
 
 const UploadStack = () => {
   return (
-    <Stack.Navigator initialRouteName={APP_ROUTES.CAMERA}>
+    <Stack.Navigator initialRouteName={APP_ROUTES.CLASSIFIED_DETAILS}>
       {routes.map((route, index) => {
-        const {name, screen} = route;
+        const {name, screen, options} = route;
         return (
           <Stack.Screen
             key={index}
             name={name}
             component={screen}
-            options={{...defaultOptions}}
+            options={{...defaultOptions, ...options}}
           />
         );
       })}
