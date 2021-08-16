@@ -37,6 +37,7 @@
     "react-native-gesture-handler": "^1.10.3",
     "react-native-image-crop-picker": "^0.35.0",
     "react-native-permissions": "^3.0.4",
+    "react-native-push-notification": "^7.4.0",
     "react-native-reanimated": "^2.2.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.3.0",
