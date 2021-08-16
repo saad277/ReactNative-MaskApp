@@ -7,9 +7,10 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-const screenWidth = Dimensions.get('window').width;
 
 import {CommonStyles, Colors} from '../../Styles';
+
+const screenWidth = Dimensions.get('window').width;
 
 const Card: React.FC = (props) => {
   return (

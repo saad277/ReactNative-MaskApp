@@ -1,7 +1,7 @@
-import React, {useRef, useState, useEffect} from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, Image} from 'react-native';
 
-import {CommonStyles, Colors} from '../../Styles';
+import {CommonStyles} from '../../Styles';
 
 import {Tag} from '../../Components/Tag';
 
