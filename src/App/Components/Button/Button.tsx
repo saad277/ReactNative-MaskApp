@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   GestureResponderEvent,
+  ActivityIndicator,
 } from 'react-native';
 
 import {Colors} from '../../Styles';
@@ -11,14 +12,24 @@ import {Colors} from '../../Styles';
 interface props {
   title: string;
   onPress: (event: GestureResponderEvent) => void;
+  loading?: boolean;
+  disabled?: boolean;
 }
 
-const Button: React.FC<props> = props => {
-  const {title, onPress = () => {}} = props;
+const Button: React.FC<props> = (props) => {
+  const {title, onPress = () => {}, loading = false, disabled = false} = props;
 
   return (
-    <TouchableOpacity style={styles.loginBtn} onPress={onPress}>
-      <Text style={styles.loginText}>{title}</Text>
+    <TouchableOpacity
+      style={styles.loginBtn}
+      onPress={onPress}
+      activeOpacity={0.8}
+      disabled={loading || disabled}>
+      {loading ? (
+        <ActivityIndicator color="#fff" size="large" />
+      ) : (
+        <Text style={styles.loginText}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

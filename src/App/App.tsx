@@ -10,7 +10,7 @@ const App: React.FC = () => {
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={Colors.primary} />
-      <MainApp />
+      <AuthStack />
     </NavigationContainer>
   );
 };

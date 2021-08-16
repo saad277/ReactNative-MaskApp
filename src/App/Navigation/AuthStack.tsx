@@ -16,7 +16,7 @@ const defaultOptions = {headerShown: false};
 
 const AuthStack = () => {
   return (
-    <Stack.Navigator initialRouteName={APP_ROUTES.SIGN_UP}>
+    <Stack.Navigator initialRouteName={APP_ROUTES.LOGIN}>
       {routes.map((route, index) => {
         const {name, screen} = route;
         return (

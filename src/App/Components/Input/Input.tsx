@@ -7,10 +7,11 @@ interface props {
   onChange: Function;
   value: string;
   placeHolder: string;
+  secureText?: boolean;
 }
 
-const Input: React.FC<props> = props => {
-  const {onChange, value, placeHolder} = props;
+const Input: React.FC<props> = (props) => {
+  const {onChange, value, placeHolder, secureText = false} = props;
 
   return (
     <View style={styles.inputView}>
@@ -19,7 +20,8 @@ const Input: React.FC<props> = props => {
         style={styles.inputText}
         placeholder={placeHolder}
         placeholderTextColor="#fff"
-        onChangeText={value => onChange(value)}
+        onChangeText={(value) => onChange(value)}
+        secureTextEntry={secureText}
       />
     </View>
   );

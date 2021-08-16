@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Snackbar from 'react-native-snackbar';
 
 import {Colors} from '../../Styles';
 import {APP_ROUTES} from '../../Helpers/RouteHelpers';
@@ -16,6 +17,28 @@ const SignUp: React.FC<SignUpProps> = () => {
   const [name, setName] = useState('');
   const navigation = useNavigation();
 
+  const canSubmit = () => {
+    if (
+      !name.trim().length &&
+      !email.trim().length &&
+      !password.trim().length
+    ) {
+      Snackbar.show({
+        text: 'Please fill all fields',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (!canSubmit()) {
+      return;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>Sign Up</Text>
@@ -26,7 +49,7 @@ const SignUp: React.FC<SignUpProps> = () => {
         value={password}
         onChange={setPassword}
       />
-      <Button title="Submit" onPress={() => {}} />
+      <Button title="Submit" onPress={handleSubmit} />
       <TouchableOpacity onPress={() => navigation.navigate(APP_ROUTES.LOGIN)}>
         <Text style={styles.text}>Already Have An Account ? LogIn</Text>
       </TouchableOpacity>
