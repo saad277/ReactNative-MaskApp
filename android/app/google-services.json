@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "757401328953",
+    "firebase_url": "https://electrical-4ce27.firebaseio.com",
+    "project_id": "electrical-4ce27",
+    "storage_bucket": "electrical-4ce27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757401328953:android:7dbd1846feecc765e39ce8",
+        "android_client_info": {
+          "package_name": "com.awesomeproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757401328953-t3nk46q02ppbgjkc4gunml3edr2kba7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChiINhgO4N61vZyGgy2OrULxpL04yPSDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757401328953-t3nk46q02ppbgjkc4gunml3edr2kba7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757401328953:android:04ca9fcc18a5d7d2e39ce8",
+        "android_client_info": {
+          "package_name": "com.electrical"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757401328953-t3nk46q02ppbgjkc4gunml3edr2kba7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChiINhgO4N61vZyGgy2OrULxpL04yPSDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757401328953-t3nk46q02ppbgjkc4gunml3edr2kba7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757401328953:android:ac8d8b1808700ffce39ce8",
+        "android_client_info": {
+          "package_name": "com.maskapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757401328953-t3nk46q02ppbgjkc4gunml3edr2kba7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChiINhgO4N61vZyGgy2OrULxpL04yPSDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757401328953-t3nk46q02ppbgjkc4gunml3edr2kba7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
