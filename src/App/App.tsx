@@ -1,18 +1,37 @@
 import React from 'react';
-import {Text, View, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
 import {Colors} from './Styles';
 
 import {AuthStack, MainApp} from './Navigation';
 
-const App: React.FC = () => {
+interface authState {
+  auth: object;
+}
+
+interface AppProps {
+  auth: {
+    isAuthenticated: boolean;
+  };
+}
+
+const App: React.FC<AppProps> = (props) => {
+  const {auth} = props;
+
   return (
     <NavigationContainer>
       <StatusBar backgroundColor={Colors.primary} />
-      <AuthStack />
+      {auth.isAuthenticated ? <MainApp /> : <AuthStack />}
     </NavigationContainer>
   );
 };
 
-export default App;
+const mapStateToProps = (state: authState) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(App);

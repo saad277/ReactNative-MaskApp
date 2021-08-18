@@ -38,7 +38,10 @@ export const getMe = (token: string) => (dispatch: Dispatch) => {
   return httpRequest
     .get('/user/me', getConfig(token))
     .then((res) => {
-      console.log(res.data);
+      dispatch({
+        type: AuthActionType.ME_SUCCESS,
+        payload: {Token: token, ...res.data},
+      });
 
       return Promise.resolve(res.data);
     })

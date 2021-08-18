@@ -1,7 +1,8 @@
 import {AuthActionType} from '../actions';
 
 interface AuthState {
-  user: '' | string;
+  user: null | object;
+  isAuthenticated: boolean;
 }
 
 interface ActionType {
@@ -10,13 +11,20 @@ interface ActionType {
 }
 
 const initialState = {
-  user: '',
+  user: null,
+  isAuthenticated: false,
 };
 
 export default (state = initialState, action: ActionType): AuthState => {
   switch (action.type) {
-    case AuthActionType.LOGIN:
-      return state;
+    case AuthActionType.ME_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...action.payload,
+        },
+        isAuthenticated: true,
+      };
 
     default:
       return state;
