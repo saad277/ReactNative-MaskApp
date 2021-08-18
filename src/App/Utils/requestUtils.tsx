@@ -1,13 +1,21 @@
 import axios from 'axios';
 
-import {baseURL, EC2Url, apiUrl} from '../Config';
+import {apiUrl} from '../Config';
 import {store} from '../Store';
 
-export const httpRequst = axios.create({
-  baseURL: baseURL,
+interface errorBody {
+  response: {
+    data: {
+      message: string;
+    };
+  };
+}
+
+export const httpRequest = axios.create({
+  baseURL: apiUrl,
 });
 
-const postConfig = {
+export const postConfig = {
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,4 +30,8 @@ export const getConfig = () => {
       Authorization: 'Bearer ' + token,
     },
   };
+};
+
+export const getError = (error: errorBody) => {
+  return error.response.data.message;
 };

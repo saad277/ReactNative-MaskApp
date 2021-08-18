@@ -2,18 +2,25 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
+import {connect} from 'react-redux';
 
 import {Colors} from '../../Styles';
-import {APP_ROUTES} from '../../Helpers/RouteHelpers';
 
+import {APP_ROUTES} from '../../Helpers/RouteHelpers';
 import {Button} from '../../Components/Button';
 import {Input} from '../../Components/Input';
+import {login} from '../../Store/actions';
 
-interface LoginProps {}
+interface LoginProps {
+  login: Function;
+}
 
-const Login: React.FC<LoginProps> = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const Login: React.FC<LoginProps> = (props) => {
+  const {login} = props;
+
+  const [email, setEmail] = useState<string>('saa22d@gmail.com');
+  const [password, setPassword] = useState<string>('123456');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigation = useNavigation();
 
   const canSubmit = () => {
@@ -32,6 +39,19 @@ const Login: React.FC<LoginProps> = () => {
     if (!canSubmit()) {
       return;
     }
+    setLoading(true);
+
+    let payload = {
+      Email: email,
+      Password: password,
+    };
+
+    login(payload)
+      .then(() => {})
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -43,8 +63,10 @@ const Login: React.FC<LoginProps> = () => {
         value={password}
         onChange={setPassword}
       />
-      <Button title="Submit" onPress={handleSubmit} />
-      <TouchableOpacity onPress={() => navigation.navigate(APP_ROUTES.SIGN_UP)}>
+      <Button title="Submit" onPress={handleSubmit} loading={loading} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate(APP_ROUTES.SIGN_UP)}
+        disabled={loading}>
         <Text style={styles.text}>Dont Have An Account ? Sign Up</Text>
       </TouchableOpacity>
     </View>
@@ -70,4 +92,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
