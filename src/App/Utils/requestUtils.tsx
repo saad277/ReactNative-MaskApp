@@ -21,9 +21,7 @@ export const postConfig = {
   },
 };
 
-export const getConfig = () => {
-  let token;
-
+export const getConfig = (token: string) => {
   return {
     headers: {
       'Content-Type': 'application/json',
