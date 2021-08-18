@@ -1,24 +1,41 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {connect} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {Colors} from './Styles';
 
 import {AuthStack, MainApp} from './Navigation';
+import {getMe} from '../App/Store/actions';
 
 interface authState {
   auth: object;
 }
 
-interface AppProps {
+interface ComponentProps {
   auth: {
     isAuthenticated: boolean;
   };
+  getMe: Function;
 }
 
-const App: React.FC<AppProps> = (props) => {
-  const {auth} = props;
+const App: React.FC<ComponentProps> = (props) => {
+  const {auth, getMe} = props;
+
+  useEffect(() => {
+    async function initialize() {
+      let token = await AsyncStorage.getItem('token');
+
+      if (token) {
+        getMe(token)
+          .then(() => {})
+          .catch(() => {});
+      }
+    }
+
+    initialize();
+  }, []);
 
   return (
     <NavigationContainer>
@@ -34,4 +51,8 @@ const mapStateToProps = (state: authState) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+  getMe,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

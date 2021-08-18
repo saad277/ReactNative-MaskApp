@@ -25,7 +25,7 @@ const defaultOptions = {headerShown: false};
 
 const UploadStack = () => {
   return (
-    <Stack.Navigator initialRouteName={APP_ROUTES.CLASSIFIED_DETAILS}>
+    <Stack.Navigator initialRouteName={APP_ROUTES.CAMERA}>
       {routes.map((route, index) => {
         const {name, screen, options} = route;
         return (

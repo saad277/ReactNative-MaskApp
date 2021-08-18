@@ -21,8 +21,9 @@ export enum AuthActionType {
 export const login = (payload: LoginBody) => (dispatch: Dispatch) => {
   return httpRequest
     .post('/login', payload, postConfig)
-    .then((res) => {
+    .then(async (res) => {
       let token = res.data.Token;
+      await AsyncStorage.setItem('token', token);
       return dispatch(getMe(token) as any);
     })
     .catch((err) => {
