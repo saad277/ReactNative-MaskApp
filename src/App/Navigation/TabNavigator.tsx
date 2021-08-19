@@ -2,13 +2,16 @@ import React from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
+import {Colors} from '../Styles';
+
 import {APP_ROUTES} from '../Helpers/RouteHelpers';
 import Home from '../Screens/Home/Home';
+import Settings from '../Screens/Settings/Settings';
 import UploadStack from '../Navigation/UploadStack';
 
 import CameraIcon from '../Assets/camera.png';
 import GalleryIcon from '../Assets/gallery.png';
-import {Colors} from '../Styles';
+import GearIcon from '../Assets/gear.png';
 
 const BottomTabs = createBottomTabNavigator();
 
@@ -37,6 +40,16 @@ const Tabs = () => {
         options={() => {
           return {
             tabBarIcon: () => renderIcon(CameraIcon),
+          };
+        }}
+      />
+
+      <BottomTabs.Screen
+        name={'Settings'}
+        component={Settings}
+        options={() => {
+          return {
+            tabBarIcon: () => renderIcon(GearIcon),
           };
         }}
       />

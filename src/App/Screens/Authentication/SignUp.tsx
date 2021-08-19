@@ -19,9 +19,7 @@ const SignUp: React.FC<SignUpProps> = () => {
 
   const canSubmit = () => {
     if (
-      !name.trim().length &&
-      !email.trim().length &&
-      !password.trim().length
+      !(name.trim().length && email.trim().length && password.trim().length)
     ) {
       Snackbar.show({
         text: 'Please fill all fields',
@@ -48,6 +46,7 @@ const SignUp: React.FC<SignUpProps> = () => {
         placeHolder="Password..."
         value={password}
         onChange={setPassword}
+        secureText={true}
       />
       <Button title="Submit" onPress={handleSubmit} />
       <TouchableOpacity onPress={() => navigation.navigate(APP_ROUTES.LOGIN)}>

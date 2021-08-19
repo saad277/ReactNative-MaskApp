@@ -24,7 +24,7 @@ const Login: React.FC<LoginProps> = (props) => {
   const navigation = useNavigation();
 
   const canSubmit = () => {
-    if (!email.trim().length && !password.trim().length) {
+    if (!(email.trim().length && password.trim().length)) {
       Snackbar.show({
         text: 'Please fill all fields',
         duration: Snackbar.LENGTH_SHORT,
@@ -54,6 +54,8 @@ const Login: React.FC<LoginProps> = (props) => {
       });
   };
 
+  console.log(password);
+
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>Login</Text>
@@ -62,6 +64,7 @@ const Login: React.FC<LoginProps> = (props) => {
         placeHolder="Password..."
         value={password}
         onChange={setPassword}
+        secureText={true}
       />
       <Button title="Submit" onPress={handleSubmit} loading={loading} />
       <TouchableOpacity
