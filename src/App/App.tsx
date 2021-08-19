@@ -39,7 +39,7 @@ const App: React.FC<ComponentProps> = (props) => {
 
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={Colors.primary} />
+      <StatusBar backgroundColor={'gray'} />
       {auth.isAuthenticated ? <MainApp /> : <AuthStack />}
     </NavigationContainer>
   );

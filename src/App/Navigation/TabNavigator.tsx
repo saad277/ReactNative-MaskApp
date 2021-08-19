@@ -15,8 +15,17 @@ import GearIcon from '../Assets/gear.png';
 
 const BottomTabs = createBottomTabNavigator();
 
-const renderIcon = (source: any) => {
-  return <Image source={source} style={{width: 30, height: 30}} />;
+const renderIcon = (source: any, focused: boolean) => {
+  return (
+    <Image
+      source={source}
+      style={{
+        width: 30,
+        height: 30,
+        ...(focused && {tintColor: Colors.primary}),
+      }}
+    />
+  );
 };
 
 const Tabs = () => {
@@ -30,7 +39,7 @@ const Tabs = () => {
         component={Home}
         options={() => {
           return {
-            tabBarIcon: () => renderIcon(GalleryIcon),
+            tabBarIcon: ({focused}) => renderIcon(GalleryIcon, focused),
           };
         }}
       />
@@ -39,7 +48,7 @@ const Tabs = () => {
         component={UploadStack}
         options={() => {
           return {
-            tabBarIcon: () => renderIcon(CameraIcon),
+            tabBarIcon: ({focused}) => renderIcon(CameraIcon, focused),
           };
         }}
       />
@@ -49,7 +58,9 @@ const Tabs = () => {
         component={Settings}
         options={() => {
           return {
-            tabBarIcon: () => renderIcon(GearIcon),
+            tabBarIcon: ({focused}) => {
+              return renderIcon(GearIcon, focused);
+            },
           };
         }}
       />

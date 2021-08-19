@@ -14,14 +14,21 @@ interface props {
   onPress: (event: GestureResponderEvent) => void;
   loading?: boolean;
   disabled?: boolean;
+  style?: any;
 }
 
 const Button: React.FC<props> = (props) => {
-  const {title, onPress = () => {}, loading = false, disabled = false} = props;
+  const {
+    title,
+    onPress = () => {},
+    loading = false,
+    disabled = false,
+    style,
+  } = props;
 
   return (
     <TouchableOpacity
-      style={styles.loginBtn}
+      style={[styles.loginBtn, style]}
       onPress={onPress}
       activeOpacity={0.8}
       disabled={loading || disabled}>

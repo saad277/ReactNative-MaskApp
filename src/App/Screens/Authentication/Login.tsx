@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   logo: {
     fontWeight: 'bold',
     fontSize: 50,
-    color: '#fb5b5a',
+    color: Colors.primary,
     marginBottom: 40,
   },
   text: {
