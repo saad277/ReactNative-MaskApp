@@ -29,4 +29,10 @@ export const CommonStyles = StyleSheet.create({
   alignSelfCenter: {
     alignSelf: 'center',
   },
+  relative: {
+    position: 'relative',
+  },
+  absolute: {
+    position: 'absolute',
+  },
 });

@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     height: 65,
     alignItems: 'center',
+    elevation: 4,
   },
   icon: {
     width: 30,

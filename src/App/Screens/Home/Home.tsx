@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 
 import {Card} from '../../Components/Card';
+import {Header} from '../../Components/Header';
 
 const arr = [1, 2, 3, 4, 5, 7, 8, 8, 9];
 
@@ -17,6 +18,7 @@ const Camera: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Header title="Home" />
       <FlatList
         data={arr}
         renderItem={renderList}
@@ -29,10 +31,7 @@ const Camera: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
+  container: {},
 });
 
 export default Camera;
