@@ -12,6 +12,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import CameraRoll from '@react-native-community/cameraroll';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import Snackbar from 'react-native-snackbar';
 
 import {CommonStyles, Colors} from '../../Styles';
 import {FlashMode, CameraType} from '../../Constants';
@@ -26,10 +27,11 @@ import SwitchCamera from '../../Assets/switch-camera.png';
 
 interface CameraProps {
   upload: Function;
+  location: object | null;
 }
 
 const Camera: React.FC<CameraProps> = (props) => {
-  const {upload} = props;
+  const {upload, location} = props;
 
   const cameraRef = useRef<any>(null);
   const [camera, setCamera] = useState(CameraType.BACK);
@@ -93,6 +95,15 @@ const Camera: React.FC<CameraProps> = (props) => {
   };
 
   const handleUpload = () => {
+    if (!Boolean(location)) {
+      Snackbar.show({
+        text: 'Please enable location and restart app',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+
+      return;
+    }
+
     const data = new FormData();
     let source = {
       uri: takenImage.path,
@@ -218,4 +229,10 @@ const mapDispatchToProps = {
   upload,
 };
 
-export default connect(null, mapDispatchToProps)(Camera);
+const mapStateToProps = (state: any) => {
+  return {
+    location: state.location.location,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Camera);

@@ -1,4 +1,5 @@
 import {Dispatch} from 'redux';
+import Snackbar from 'react-native-snackbar';
 
 import {apiUrl} from '../../Config';
 
@@ -13,7 +14,10 @@ export const upload = (body: any) => (dispatch: Dispatch) => {
   })
     .then((res) => res.json())
     .then((response) => {
-      console.log('res--->', response);
+      Snackbar.show({
+        text: response.message,
+        duration: Snackbar.LENGTH_SHORT,
+      });
     })
     .catch((err) => {
       console.log(err);
