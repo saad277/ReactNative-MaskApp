@@ -6,7 +6,7 @@ import {CommonStyles} from '../../Styles';
 import {Tag} from '../../Components/Tag';
 
 const ClassifiedDetails: React.FC = (props) => {
-  const {route} = props;
+  const {route}: any = props;
 
   const base64 = route?.params?.image?.base64;
   const path = route?.params?.image?.path;
