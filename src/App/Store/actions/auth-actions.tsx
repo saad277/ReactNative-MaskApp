@@ -16,6 +16,7 @@ interface LoginBody {
 
 export enum AuthActionType {
   ME_SUCCESS = 'ME_SUCCESS',
+  LOG_OUT = 'LOG_OUT',
 }
 
 export const login = (payload: LoginBody) => (dispatch: Dispatch) => {
@@ -51,6 +52,16 @@ export const getMe = (token: string) => (dispatch: Dispatch) => {
         text: getError(err),
         duration: Snackbar.LENGTH_SHORT,
       });
+
+      dispatch(logout() as any);
       return Promise.reject(err);
     });
+};
+
+export const logout = () => async (dispatch: Dispatch) => {
+  await AsyncStorage.removeItem('token');
+
+  dispatch({
+    type: AuthActionType.LOG_OUT,
+  });
 };

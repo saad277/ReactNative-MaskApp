@@ -26,6 +26,13 @@ export default (state = initialState, action: ActionType): AuthState => {
         isAuthenticated: true,
       };
 
+    case AuthActionType.LOG_OUT:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+      };
+
     default:
       return state;
   }
