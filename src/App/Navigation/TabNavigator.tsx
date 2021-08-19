@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Snackbar from 'react-native-snackbar';
+import {connect} from 'react-redux';
 
 import {Colors} from '../Styles';
 
@@ -8,10 +10,16 @@ import {APP_ROUTES} from '../Helpers/RouteHelpers';
 import Home from '../Screens/Home/Home';
 import Settings from '../Screens/Settings/Settings';
 import UploadStack from '../Navigation/UploadStack';
+import {locateCurrentPosition} from '../Services/locationService';
+import {setLocation} from '../Store/actions';
 
 import CameraIcon from '../Assets/camera.png';
 import GalleryIcon from '../Assets/gallery.png';
 import GearIcon from '../Assets/gear.png';
+
+interface props {
+  setLocation: Function;
+}
 
 const BottomTabs = createBottomTabNavigator();
 
@@ -28,7 +36,26 @@ const renderIcon = (source: any, focused: boolean) => {
   );
 };
 
-const Tabs = () => {
+const Tabs: React.FC<props> = (props) => {
+  const {setLocation} = props;
+
+  useEffect(() => {
+    async function initialize() {
+      locateCurrentPosition()
+        .then((res: any) => {
+          setLocation(res);
+        })
+        .catch((err) => {
+          Snackbar.show({
+            text: err.message,
+            duration: Snackbar.LENGTH_SHORT,
+          });
+        });
+    }
+
+    initialize();
+  }, []);
+
   return (
     <BottomTabs.Navigator
       tabBarOptions={{
@@ -68,4 +95,8 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;
+const mapDispatchToProps = {
+  setLocation,
+};
+
+export default connect(null, mapDispatchToProps)(Tabs);

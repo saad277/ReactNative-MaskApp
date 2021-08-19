@@ -45,7 +45,7 @@ export const login = (payload: LoginBody) => (dispatch: Dispatch) => {
     });
 };
 
-export const signUp = (payload: SignUpBody) => (dispatch: Dispatch) => {
+export const signUp = (payload: SignUpBody) => () => {
   return httpRequest
     .post('/signUp', payload, postConfig)
     .then((res) => {

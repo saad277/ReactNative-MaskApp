@@ -57,8 +57,6 @@ const Login: React.FC<LoginProps> = (props) => {
       });
   };
 
-  console.log(password);
-
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>Login</Text>
