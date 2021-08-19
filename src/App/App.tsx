@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {connect} from 'react-redux';
@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {Colors} from './Styles';
 
+import Splash from '../App/Screens/Splash/Splash';
 import {AuthStack, MainApp} from './Navigation';
 import {getMe} from '../App/Store/actions';
 
@@ -23,6 +24,14 @@ interface ComponentProps {
 const App: React.FC<ComponentProps> = (props) => {
   const {auth, getMe} = props;
 
+  const [splash, setSplash] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSplash(false);
+    }, 1000);
+  }, []);
+
   useEffect(() => {
     async function initialize() {
       let token = await AsyncStorage.getItem('token');
@@ -37,10 +46,14 @@ const App: React.FC<ComponentProps> = (props) => {
     initialize();
   }, []);
 
+  const renderApp = () => {
+    return auth.isAuthenticated ? <MainApp /> : <AuthStack />;
+  };
+
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={'gray'} />
-      {auth.isAuthenticated ? <MainApp /> : <AuthStack />}
+      <StatusBar backgroundColor={"black"} />
+      {splash ? <Splash /> : renderApp()}
     </NavigationContainer>
   );
 };
