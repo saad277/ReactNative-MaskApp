@@ -2,6 +2,8 @@ import {Dispatch} from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Snackbar from 'react-native-snackbar';
 
+import {USER_TYPES} from '../../Constants';
+
 import {
   httpRequest,
   postConfig,
@@ -12,6 +14,13 @@ import {
 interface LoginBody {
   Email: string;
   Password: string;
+}
+
+interface SignUpBody {
+  UserName: string;
+  Password: string;
+  Email: string;
+  Type: USER_TYPES;
 }
 
 export enum AuthActionType {
@@ -26,6 +35,25 @@ export const login = (payload: LoginBody) => (dispatch: Dispatch) => {
       let token = res.data.Token;
       await AsyncStorage.setItem('token', token);
       return dispatch(getMe(token) as any);
+    })
+    .catch((err) => {
+      Snackbar.show({
+        text: getError(err),
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return Promise.reject(err);
+    });
+};
+
+export const signUp = (payload: SignUpBody) => (dispatch: Dispatch) => {
+  return httpRequest
+    .post('/signUp', payload, postConfig)
+    .then((res) => {
+      Snackbar.show({
+        text: res.data.Message,
+        duration: Snackbar.LENGTH_SHORT,
+      });
+      return Promise.resolve(res.data);
     })
     .catch((err) => {
       Snackbar.show({

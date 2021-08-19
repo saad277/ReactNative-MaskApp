@@ -47,7 +47,10 @@ const Login: React.FC<LoginProps> = (props) => {
     };
 
     login(payload)
-      .then(() => {})
+      .then(() => {
+        setEmail('');
+        setPassword('');
+      })
       .catch(() => {})
       .finally(() => {
         setLoading(false);

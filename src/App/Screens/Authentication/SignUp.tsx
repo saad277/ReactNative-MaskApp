@@ -2,19 +2,27 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
+import {connect} from 'react-redux';
 
 import {Colors} from '../../Styles';
-import {APP_ROUTES} from '../../Helpers/RouteHelpers';
 
+import {APP_ROUTES} from '../../Helpers/RouteHelpers';
 import {Button} from '../../Components/Button';
 import {Input} from '../../Components/Input';
+import {USER_TYPES} from '../../Constants';
+import {signUp} from '../../Store/actions';
 
-interface SignUpProps {}
+interface SignUpProps {
+  signUp: Function;
+}
 
-const SignUp: React.FC<SignUpProps> = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+const SignUp: React.FC<SignUpProps> = (props) => {
+  const {signUp} = props;
+
+  const [email, setEmail] = useState('saad5@gmail.com');
+  const [password, setPassword] = useState('123456');
+  const [name, setName] = useState('saadf');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigation = useNavigation();
 
   const canSubmit = () => {
@@ -35,6 +43,25 @@ const SignUp: React.FC<SignUpProps> = () => {
     if (!canSubmit()) {
       return;
     }
+    setLoading(true);
+
+    let payload = {
+      Email: email,
+      Password: password,
+      UserName: name,
+      Type: USER_TYPES.USER,
+    };
+
+    signUp(payload)
+      .then(() => {
+        setEmail('');
+        setPassword('');
+        setName('');
+      })
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -48,8 +75,10 @@ const SignUp: React.FC<SignUpProps> = () => {
         onChange={setPassword}
         secureText={true}
       />
-      <Button title="Submit" onPress={handleSubmit} />
-      <TouchableOpacity onPress={() => navigation.navigate(APP_ROUTES.LOGIN)}>
+      <Button title="Submit" onPress={handleSubmit} loading={loading} />
+      <TouchableOpacity
+        onPress={() => navigation.navigate(APP_ROUTES.LOGIN)}
+        disabled={loading}>
         <Text style={styles.text}>Already Have An Account ? LogIn</Text>
       </TouchableOpacity>
     </View>
@@ -75,4 +104,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+const mapDispatchToProps = {
+  signUp,
+};
+
+export default connect(null, mapDispatchToProps)(SignUp);

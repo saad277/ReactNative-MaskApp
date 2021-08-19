@@ -1,2 +1,3 @@
 import {FlashMode, CameraType} from './CameraConstants';
-export {FlashMode,CameraType}
+import {USER_TYPES} from './UserTypes';
+export {FlashMode, CameraType, USER_TYPES};
