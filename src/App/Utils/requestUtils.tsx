@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {apiUrl} from '../Config';
+import {apiUrl, EC2Url} from '../Config';
 import {store} from '../Store';
 
 interface errorBody {
@@ -15,9 +15,19 @@ export const httpRequest = axios.create({
   baseURL: apiUrl,
 });
 
+export const ec2Request = axios.create({
+  baseURL: EC2Url,
+});
+
 export const postConfig = {
   headers: {
     'Content-Type': 'application/json',
+  },
+};
+
+export const formConfig = {
+  headers: {
+    'Content-Type': 'multipart/form-data',
   },
 };
 

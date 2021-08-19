@@ -81,7 +81,7 @@ const Camera: React.FC<CameraProps> = (props) => {
 
   const takePicture = async () => {
     if (cameraRef) {
-      const options = {base64: true, mirrorImage: true};
+      const options = {base64: true, mirrorImage: true, quality: 0.5};
       let data;
 
       try {
@@ -112,7 +112,19 @@ const Camera: React.FC<CameraProps> = (props) => {
     };
     data.append('img', source as any);
 
-    upload(data);
+    upload(data)
+      .then((res: any) => {
+        const {mask, withoutMask} = res;
+
+        navigation.navigate(APP_ROUTES.CLASSIFIED_DETAILS, {
+          image: takenImage,
+          mask,
+          withoutMask,
+        });
+
+        setTakenImage({path: '', base64: ''});
+      })
+      .catch((err: any) => {});
   };
 
   const toggleCamera = () => {
@@ -126,12 +138,12 @@ const Camera: React.FC<CameraProps> = (props) => {
   const imageHeight = takenImage && takenImage.path && {height: 50};
 
   return (
-    <View style={[CommonStyles.flexOne]}>
+    <View style={CommonStyles.flexOne}>
       <View style={CommonStyles.flexOne}>
         <View style={[styles.header, imageHeight as any]}>
           {!takenImage.path && (
             <TouchableOpacity onPress={toggleCamera}>
-              <Image style={[styles.switchCamera]} source={SwitchCamera} />
+              <Image style={styles.switchCamera} source={SwitchCamera} />
             </TouchableOpacity>
           )}
         </View>
@@ -140,7 +152,7 @@ const Camera: React.FC<CameraProps> = (props) => {
           <Image
             source={{uri: takenImage.path}}
             style={CommonStyles.flexOne}
-            resizeMode="cover"
+            resizeMode="stretch"
           />
         ) : (
           <RNCamera

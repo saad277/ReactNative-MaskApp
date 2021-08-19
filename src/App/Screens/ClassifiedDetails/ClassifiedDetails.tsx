@@ -5,16 +5,20 @@ import {CommonStyles} from '../../Styles';
 
 import {Tag} from '../../Components/Tag';
 
-const mock =
-  'https://images.unsplash.com/photo-1586163958271-4d2cc29feff8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80';
-
 const ClassifiedDetails: React.FC = (props) => {
+  const {route} = props;
+
+  const base64 = route?.params?.image?.base64;
+  const path = route?.params?.image?.path;
+  const withMask = route?.params?.mask;
+  const withoutMask = route?.params?.withoutMask;
+
   return (
     <View style={styles.container}>
-      <Image source={{uri: mock}} style={styles.image} />
-      <View style={[styles.cardContainer]}>
-        <Tag text="With Mask 10" safe={true} />
-        <Tag text="Without Mask 10" />
+      <Image source={{uri: path}} style={styles.image} />
+      <View style={styles.cardContainer}>
+        <Tag text={`With Mask ${withMask}`} safe={true} />
+        <Tag text={`Without Mask ${withoutMask}`} />
       </View>
     </View>
   );
