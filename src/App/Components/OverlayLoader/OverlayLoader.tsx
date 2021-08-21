@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'center',
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
   },
   text: {
     color: Colors.primary,
