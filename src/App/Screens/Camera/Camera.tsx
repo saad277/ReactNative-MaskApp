@@ -18,6 +18,7 @@ import {CommonStyles, Colors} from '../../Styles';
 import {FlashMode, CameraType} from '../../Constants';
 
 import {APP_ROUTES} from '../../Helpers/RouteHelpers';
+import {OverlayLoader} from '../../Components/OverlayLoader';
 import {upload} from '../../Store/actions';
 
 import CameraIcon from '../../Assets/camera-white.png';
@@ -38,6 +39,7 @@ const Camera: React.FC<CameraProps> = (props) => {
   const [flashEnabled, setFlashEnabled] = useState(FlashMode.OFF);
   const [takenImage, setTakenImage] = useState({path: '', base64: ''});
   const [preview, setPreview] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Camera: React.FC<CameraProps> = (props) => {
         .then((res) => {
           setPreview(res.edges[0].node.image.uri);
         })
-        .catch((error) => {});
+        .catch(() => {});
     };
 
     initialize();
@@ -104,6 +106,8 @@ const Camera: React.FC<CameraProps> = (props) => {
       return;
     }
 
+    setLoading(true);
+
     const data = new FormData();
     let source = {
       uri: takenImage.path,
@@ -114,17 +118,21 @@ const Camera: React.FC<CameraProps> = (props) => {
 
     upload(data)
       .then((res: any) => {
-        const {mask, withoutMask} = res;
+        const {mask, withoutMask, classified} = res;
 
         navigation.navigate(APP_ROUTES.CLASSIFIED_DETAILS, {
           image: takenImage,
           mask,
           withoutMask,
+          classified,
         });
 
         setTakenImage({path: '', base64: ''});
       })
-      .catch((err: any) => {});
+      .catch((err: any) => {})
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const toggleCamera = () => {
@@ -139,6 +147,7 @@ const Camera: React.FC<CameraProps> = (props) => {
 
   return (
     <View style={CommonStyles.flexOne}>
+      {loading && <OverlayLoader />}
       <View style={CommonStyles.flexOne}>
         <View style={[styles.header, imageHeight as any]}>
           {!takenImage.path && (
@@ -163,7 +172,7 @@ const Camera: React.FC<CameraProps> = (props) => {
           />
         )}
       </View>
-      <View style={[styles.footer]}>
+      <View style={styles.footer}>
         {!takenImage.path && (
           <TouchableOpacity onPress={openPicker}>
             <Image style={styles.preview} source={{uri: preview}} />

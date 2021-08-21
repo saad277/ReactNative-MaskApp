@@ -8,14 +8,19 @@ import {Tag} from '../../Components/Tag';
 const ClassifiedDetails: React.FC = (props) => {
   const {route}: any = props;
 
+  const classified = route?.params?.classified;
   const base64 = route?.params?.image?.base64;
-  const path = route?.params?.image?.path;
+  //const path = route?.params?.image?.path;
   const withMask = route?.params?.mask;
   const withoutMask = route?.params?.withoutMask;
 
   return (
     <View style={styles.container}>
-      <Image source={{uri: path}} style={styles.image} />
+      <Image
+        source={{uri: `data:image/gif;base64,${classified}`}}
+        style={styles.image}
+        resizeMode="contain"
+      />
       <View style={styles.cardContainer}>
         <Tag text={`With Mask ${withMask}`} safe={true} />
         <Tag text={`Without Mask ${withoutMask}`} />
