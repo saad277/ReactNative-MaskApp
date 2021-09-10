@@ -1,9 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Dimensions} from 'react-native';
 
 import {CommonStyles} from '../../Styles';
 
 import {Tag} from '../../Components/Tag';
+
+const screenHeight = Dimensions.get('window').height;
 
 const ClassifiedDetails: React.FC = (props) => {
   const {route}: any = props;
