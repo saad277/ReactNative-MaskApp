@@ -1,26 +1,43 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
+import {connect} from 'react-redux';
 
 import {Card} from '../../Components/Card';
 import {Header} from '../../Components/Header';
-
-const arr = [1, 2, 3, 4, 5, 7, 8, 8, 9];
+import {OverlayLoader} from '../../Components/OverlayLoader';
+import {getListing} from '../../Store/actions';
 
 interface listItem {
-  item: number;
+  item: object;
   index: number;
 }
 
-const Camera: React.FC = () => {
-  const renderList = ({_, index}: listItem) => {
-    return <Card key={index} />;
+interface HomeProps {
+  getListing: Function;
+  fetching: boolean;
+  list: [];
+}
+
+const Home: React.FC<HomeProps> = (props) => {
+  const {getListing, fetching, list} = props;
+
+  useEffect(() => {
+    getListing();
+  }, []);
+
+  const renderList = ({item, index}: listItem) => {
+
+    console.log(typeof item)
+
+    return <Card key={index} {...item} />;
   };
 
   return (
     <View style={styles.container}>
+      {fetching && <OverlayLoader />}
       <Header title="Home" />
       <FlatList
-        data={arr}
+        data={list}
         renderItem={renderList}
         numColumns={2}
         key={2}
@@ -34,4 +51,15 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-export default Camera;
+const mapStateToProps = (state: any) => {
+  return {
+    fetching: state.media.fetching,
+    list: state.media.list,
+  };
+};
+
+const mapDispatchToProps = {
+  getListing,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

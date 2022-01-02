@@ -97,14 +97,14 @@ const Camera: React.FC<CameraProps> = (props) => {
   };
 
   const handleUpload = () => {
-    if (!Boolean(location)) {
-      Snackbar.show({
-        text: 'Please enable location and restart app',
-        duration: Snackbar.LENGTH_SHORT,
-      });
+    // if (!Boolean(location)) {
+    //   Snackbar.show({
+    //     text: 'Please enable location and restart app',
+    //     duration: Snackbar.LENGTH_SHORT,
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
 
     setLoading(true);
 

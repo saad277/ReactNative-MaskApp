@@ -93,6 +93,7 @@ const mapDispatchToProps = {
 const mapStateToProps = (state: any) => {
   return {
     user: state.auth.user,
+    location: state.location.location,
   };
 };
 
