@@ -4,8 +4,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {Colors} from './Styles';
-
 import Splash from '../App/Screens/Splash/Splash';
 import {AuthStack, MainApp} from './Navigation';
 import {getMe} from '../App/Store/actions';
@@ -52,7 +50,7 @@ const App: React.FC<ComponentProps> = (props) => {
 
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={"black"} />
+      <StatusBar backgroundColor={'black'} />
       {splash ? <Splash /> : renderApp()}
     </NavigationContainer>
   );
