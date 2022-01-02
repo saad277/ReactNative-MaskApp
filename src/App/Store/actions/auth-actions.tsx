@@ -87,9 +87,30 @@ export const getMe = (token: string) => (dispatch: Dispatch) => {
 };
 
 export const logout = () => async (dispatch: Dispatch) => {
+  dispatch(updateFcm({FcmToken: ''}) as any);
+
   await AsyncStorage.removeItem('token');
 
   dispatch({
     type: AuthActionType.LOG_OUT,
   });
 };
+
+export const updateFcm =
+  (body: object) => (dispatch: Dispatch, getState: any) => {
+    const token = getState()?.auth?.user?.Token;
+
+    return httpRequest
+      .post('/user/update-fcm', body, getConfig(token))
+      .then((res) => {
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        Snackbar.show({
+          text: getError(err),
+          duration: Snackbar.LENGTH_SHORT,
+        });
+
+        return Promise.reject(err);
+      });
+  };

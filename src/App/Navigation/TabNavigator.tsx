@@ -3,15 +3,15 @@ import {Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Snackbar from 'react-native-snackbar';
 import {connect} from 'react-redux';
+import messaging from '@react-native-firebase/messaging';
 
 import {Colors} from '../Styles';
 
-import {APP_ROUTES} from '../Helpers/RouteHelpers';
 import Settings from '../Screens/Settings/Settings';
 import UploadStack from '../Navigation/UploadStack';
 import HomeStack from '../Navigation/HomeStack';
 import {locateCurrentPosition} from '../Services/locationService';
-import {setLocation} from '../Store/actions';
+import {setLocation, updateFcm} from '../Store/actions';
 
 import CameraIcon from '../Assets/camera.png';
 import GalleryIcon from '../Assets/gallery.png';
@@ -19,6 +19,7 @@ import GearIcon from '../Assets/gear.png';
 
 interface props {
   setLocation: Function;
+  updateFcm: Function;
 }
 
 const BottomTabs = createBottomTabNavigator();
@@ -37,7 +38,7 @@ const renderIcon = (source: any, focused: boolean) => {
 };
 
 const Tabs: React.FC<props> = (props) => {
-  const {setLocation} = props;
+  const {setLocation, updateFcm} = props;
 
   useEffect(() => {
     async function initialize() {
@@ -54,6 +55,25 @@ const Tabs: React.FC<props> = (props) => {
     }
 
     initialize();
+  }, []);
+
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const enabled = await messaging().hasPermission();
+
+        if (!enabled) {
+          await messaging().requestPermission();
+        }
+        let fcmToken = await messaging().getToken();
+
+        if (fcmToken) {
+          updateFcm({FcmToken: fcmToken});
+        }
+      } catch (err) {}
+    };
+
+    getToken();
   }, []);
 
   return (
@@ -97,6 +117,7 @@ const Tabs: React.FC<props> = (props) => {
 
 const mapDispatchToProps = {
   setLocation,
+  updateFcm,
 };
 
 export default connect(null, mapDispatchToProps)(Tabs);

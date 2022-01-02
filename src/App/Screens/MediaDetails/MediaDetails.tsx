@@ -31,8 +31,6 @@ const ClassifiedDetails: React.FC<MediaDetailProps> = (props) => {
 
   const {Img, WithMask, WithoutMask, Location} = route.params;
 
-  console.log(Location);
-
   return (
     <View style={styles.container}>
       <ScrollView>
