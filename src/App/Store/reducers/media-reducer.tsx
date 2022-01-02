@@ -12,7 +12,7 @@ interface ActionType {
 
 const initialState = {
   list: [],
-  fetching: false,
+  fetching: true,
 };
 
 export default (state = initialState, action: ActionType): MediaState => {

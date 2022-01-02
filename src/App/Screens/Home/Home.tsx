@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
 import {connect} from 'react-redux';
 
 import {Card} from '../../Components/Card';
@@ -26,16 +26,13 @@ const Home: React.FC<HomeProps> = (props) => {
   }, []);
 
   const renderList = ({item, index}: listItem) => {
-
-    console.log(typeof item)
-
     return <Card key={index} {...item} />;
   };
 
   return (
     <View style={styles.container}>
-      {fetching && <OverlayLoader />}
       <Header title="Home" />
+      {fetching && <OverlayLoader />}
       <FlatList
         data={list}
         renderItem={renderList}
@@ -48,7 +45,9 @@ const Home: React.FC<HomeProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    paddingBottom: 10,
+  },
 });
 
 const mapStateToProps = (state: any) => {
