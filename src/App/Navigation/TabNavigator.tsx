@@ -7,9 +7,9 @@ import {connect} from 'react-redux';
 import {Colors} from '../Styles';
 
 import {APP_ROUTES} from '../Helpers/RouteHelpers';
-import Home from '../Screens/Home/Home';
 import Settings from '../Screens/Settings/Settings';
 import UploadStack from '../Navigation/UploadStack';
+import HomeStack from '../Navigation/HomeStack';
 import {locateCurrentPosition} from '../Services/locationService';
 import {setLocation} from '../Store/actions';
 
@@ -62,8 +62,8 @@ const Tabs: React.FC<props> = (props) => {
         activeTintColor: Colors.primary,
       }}>
       <BottomTabs.Screen
-        name={APP_ROUTES.HOME}
-        component={Home}
+        name={'HomeStack'}
+        component={HomeStack}
         options={() => {
           return {
             tabBarIcon: ({focused}) => renderIcon(GalleryIcon, focused),

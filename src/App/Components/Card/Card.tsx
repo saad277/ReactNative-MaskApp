@@ -6,24 +6,35 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  GestureResponderEvent,
 } from 'react-native';
-import moment from "moment"
+import moment from 'moment';
 
-import {CommonStyles, Colors} from '../../Styles';
+import {CommonStyles} from '../../Styles';
 
 const screenWidth = Dimensions.get('window').width;
 
-const Card: React.FC = (props) => {
-  const {Img,CreatedAt} = props;
+interface CardProps {
+  key:number,
+  Img: string;
+  CreatedAt: string;
+  onPress: (event: GestureResponderEvent) => void;
+}
+
+const Card: React.FC<CardProps> = (props) => {
+  const {Img, CreatedAt, onPress = () => {}} = props;
 
   return (
-    <TouchableOpacity activeOpacity={0.2}>
+    <TouchableOpacity activeOpacity={0.2} onPress={onPress}>
       <View style={styles.cardContainer}>
         <Image
           source={{uri: `data:image/gif;base64,${Img}`}}
           style={styles.image}
         />
-        <Text style={styles.text}> {moment(CreatedAt).format("DD-MM-YYYY")}</Text>
+        <Text style={styles.text}>
+          {' '}
+          {moment(CreatedAt).format('DD-MM-YYYY')}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -43,7 +54,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     ...CommonStyles.alignSelfCenter,
-    marginTop:10,
+    marginTop: 10,
   },
   image: {
     width: 130,
