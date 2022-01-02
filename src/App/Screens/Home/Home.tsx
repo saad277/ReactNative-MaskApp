@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, FlatList} from 'react-native';
 import {connect} from 'react-redux';
 
 import {Card} from '../../Components/Card';
@@ -25,9 +25,18 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = (props) => {
   const {getListing, fetching, list, navigation} = props;
 
+  const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
     getListing();
   }, []);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    getListing().finally(() => {
+      setRefreshing(false);
+    });
+  };
 
   const renderList = ({item, index}: listItem) => {
     return (
@@ -49,6 +58,8 @@ const Home: React.FC<HomeProps> = (props) => {
         numColumns={2}
         key={2}
         keyExtractor={(_, index) => index.toString()}
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
       />
     </View>
   );

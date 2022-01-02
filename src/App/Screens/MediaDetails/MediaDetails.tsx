@@ -1,9 +1,19 @@
 import React from 'react';
-import {View, StyleSheet, Image, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Dimensions,
+  Text,
+} from 'react-native';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 
 import {CommonStyles} from '../../Styles';
 
 import {Tag} from '../../Components/Tag';
+
+const screenWidth = Dimensions.get('window').width;
 
 interface MediaDetailProps {
   route: {
@@ -11,6 +21,7 @@ interface MediaDetailProps {
       Img: string;
       WithMask: String;
       WithoutMask: String;
+      Location: object;
     };
   };
 }
@@ -18,7 +29,9 @@ interface MediaDetailProps {
 const ClassifiedDetails: React.FC<MediaDetailProps> = (props) => {
   const {route} = props;
 
-  const {Img, WithMask, WithoutMask} = route.params;
+  const {Img, WithMask, WithoutMask, Location} = route.params;
+
+  console.log(Location);
 
   return (
     <View style={styles.container}>
@@ -32,6 +45,20 @@ const ClassifiedDetails: React.FC<MediaDetailProps> = (props) => {
           <Tag text={`With Mask ${WithMask || 0}`} safe={true} />
           <Tag text={`Without Mask ${WithoutMask || 0}`} />
         </View>
+
+        <Text style={styles.location}>Location :</Text>
+        {!!Object.keys(Location).length ? (
+          <View style={styles.mapContainer}>
+            <MapView
+              provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+              style={styles.map}
+              region={Location}>
+              <Marker coordinate={Location}></Marker>
+            </MapView>
+          </View>
+        ) : (
+          <Text style={styles.location}>-</Text>
+        )}
       </ScrollView>
     </View>
   );
@@ -47,14 +74,25 @@ const styles = StyleSheet.create({
     ...CommonStyles.flexRow,
     ...CommonStyles.justifyBetween,
   },
+  location: {
+    marginLeft: 10,
+    fontSize: 20,
+    marginTop: 20,
+  },
   image: {
     width: '100%',
     height: 300,
   },
-  uploadBtn: {
-    marginTop: 40,
-    alignSelf: 'center',
-    marginBottom: 20,
+  mapContainer: {
+    marginTop: 20,
+    width: screenWidth,
+    height: 400,
+  },
+
+  map: {
+    height: 400,
+    width: 400,
+    ...StyleSheet.absoluteFillObject,
   },
 });
 

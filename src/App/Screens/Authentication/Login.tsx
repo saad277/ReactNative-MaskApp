@@ -19,7 +19,7 @@ const Login: React.FC<LoginProps> = (props) => {
   const {login} = props;
 
   const [email, setEmail] = useState<string>('saad@gmail.com');
-  const [password, setPassword] = useState<string>('123456');
+  const [password, setPassword] = useState<string>('click123');
   const [loading, setLoading] = useState<boolean>(false);
   const navigation = useNavigation();
 

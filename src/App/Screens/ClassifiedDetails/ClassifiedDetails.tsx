@@ -10,7 +10,7 @@ import {OverlayLoader} from '../../Components/OverlayLoader';
 import {uploadToEval} from '../../Store/actions';
 
 const ClassifiedDetails: React.FC = (props) => {
-  const {route, navigation, uploadToEval, user}: any = props;
+  const {route, navigation, uploadToEval, user, location}: any = props;
 
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +25,7 @@ const ClassifiedDetails: React.FC = (props) => {
 
     let payload = {
       Description: 'string',
-      Location: user.longitude && user.latitude ? user.location : {},
+      Location: location.longitude && location.latitude ? location : {},
       Area: 'string',
       WithMask: withMask,
       WithoutMask: withoutMask,
