@@ -22,6 +22,7 @@ interface MediaDetailProps {
       WithMask: String;
       WithoutMask: String;
       Location: object;
+      Status: any;
     };
   };
 }
@@ -29,7 +30,21 @@ interface MediaDetailProps {
 const ClassifiedDetails: React.FC<MediaDetailProps> = (props) => {
   const {route} = props;
 
-  const {Img, WithMask, WithoutMask, Location} = route.params;
+  const {Img, WithMask, WithoutMask, Location, Status} = route.params;
+
+  const getStatus = (val) => {
+    if (!val) {
+      return 'None';
+    }
+
+    if (val === 1) {
+      return 'Low';
+    } else if (val === 2) {
+      return 'Medium';
+    } else if (val == 3) {
+      return 'High';
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -43,6 +58,8 @@ const ClassifiedDetails: React.FC<MediaDetailProps> = (props) => {
           <Tag text={`With Mask ${WithMask || 0}`} safe={true} />
           <Tag text={`Without Mask ${WithoutMask || 0}`} />
         </View>
+
+        <Text style={styles.location}>Status : {getStatus(Status)}</Text>
 
         <Text style={styles.location}>Location :</Text>
         {!!Object.keys(Location).length ? (
