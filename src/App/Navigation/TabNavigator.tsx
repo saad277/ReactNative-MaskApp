@@ -82,7 +82,7 @@ const Tabs: React.FC<props> = (props) => {
         activeTintColor: Colors.primary,
       }}>
       <BottomTabs.Screen
-        name={'HomeStack'}
+        name={'Home'}
         component={HomeStack}
         options={() => {
           return {

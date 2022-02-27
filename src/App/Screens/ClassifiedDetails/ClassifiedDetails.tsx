@@ -8,6 +8,7 @@ import {Tag} from '../../Components/Tag';
 import {Button} from '../../Components/Button';
 import {OverlayLoader} from '../../Components/OverlayLoader';
 import {uploadToEval} from '../../Store/actions';
+import {LocalNotification} from '../../Services/notification';
 
 const ClassifiedDetails: React.FC = (props) => {
   const {route, navigation, uploadToEval, user, location}: any = props;
@@ -25,7 +26,7 @@ const ClassifiedDetails: React.FC = (props) => {
 
     let payload = {
       Description: 'string',
-      Location: location.longitude && location.latitude ? location : {},
+      Location: location?.longitude && location?.latitude ? location : {},
       Area: 'string',
       WithMask: withMask,
       WithoutMask: withoutMask,
@@ -33,7 +34,10 @@ const ClassifiedDetails: React.FC = (props) => {
     };
 
     uploadToEval(payload)
-      .then(() => {
+      .then(({Data}: any) => {
+        LocalNotification(
+          Data.Status === 1 ? 'green' : Data.Status === 2 ? 'yellow' : 'red',
+        );
         navigation.goBack();
       })
       .catch(() => {})
